@@ -1,0 +1,23 @@
+[
+    {
+        "model": "rareapi.tags",
+        "pk": 1,
+        "fields": {
+            "label": "pooches n smooches"
+        }
+    },
+    {
+        "model": "rareapi.tags",
+        "pk": 2,
+        "fields": {
+            "label": "KATZ"
+        }
+    },
+    {
+        "model": "rareapi.tags",
+        "pk": 3,
+        "fields": {
+            "label": "doggos and bloggos"
+        }
+    }
+]
