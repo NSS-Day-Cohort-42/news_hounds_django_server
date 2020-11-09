@@ -40,7 +40,7 @@ def login_user(request):
 
 @csrf_exempt
 def register_user(request):
-    '''Handles the creation of a new gamer for authentication
+    '''Handles the creation of a new user for authentication
 
     Method arguments:
       request -- The full HTTP request object
@@ -75,6 +75,9 @@ def register_user(request):
     # Use the REST Framework's token generator on the new user account
     token = Token.objects.create(user=new_user)
 
-    # Return the token to the client
-    data = json.dumps({"token": token.key})
+    # Return the token, to the user so that they can authenticate.
+    # Also, return the user id to the client so that they can determine which posts belong to the current user
+    data = json.dumps(
+        {"token": token.key,
+        "user_id": rare_user.id})
     return HttpResponse(data, content_type='application/json')
