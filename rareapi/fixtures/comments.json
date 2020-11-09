@@ -1,0 +1,13 @@
+[
+    {
+        "model": "rareapi.comments",
+        "pk": 1,
+        "fields": {
+            "bio": "It's me",
+            "profile_image_url": "",
+            "user": 1,
+            "active": true,
+            "created_on": "2020-08-28T14:51:39.989Z"
+        }
+    }
+]
