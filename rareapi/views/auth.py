@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 from rareapi.models import RareUsers
-from datetime import datetime
+from django.utils import timezone
 
 
 @csrf_exempt
@@ -64,7 +64,7 @@ def register_user(request):
         bio=req_body['bio'],
         profile_image_url=req_body['profile_image_url'],
         # set the created on property to the current date and time
-        created_on= datetime.now(),
+        created_on= timezone.now(),
         active = True,
         user=new_user
     )
