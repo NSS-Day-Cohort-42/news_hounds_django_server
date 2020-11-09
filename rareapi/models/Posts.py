@@ -1,6 +1,8 @@
+"""Database Post module"""
 from django.db import models
 
 class Posts(models.Model):
+    """Database Post model"""
     user = models.ForeignKey("RareUsers", on_delete=models.CASCADE)
     category = models.ForeignKey("Categories", on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
