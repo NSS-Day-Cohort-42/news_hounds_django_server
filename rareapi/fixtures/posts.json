@@ -6,9 +6,35 @@
             "user": 1,
             "category": 2,
             "title": "BARKSGIVING APPROACHES",
-            "publication_date": "2020-08-28T14:51:39.989Z",
+            "publication_date": "2020-08-18",
             "image_url": "",
             "content": "dog sum? imsum. LOTS OF BARK BARK fluffy heckin puppers etc",
+            "approved": true
+        }
+    },
+    {
+        "model": "rareapi.posts",
+        "pk": 2,
+        "fields": {
+            "user": 1,
+            "category": 2,
+            "title": "Someting about dogs",
+            "publication_date": "2020-09-28",
+            "image_url": "",
+            "content": "I dont know, LITERALLY this is filler text ya'll come awwnn",
+            "approved": true
+        }
+    },
+    {
+        "model": "rareapi.posts",
+        "pk": 3,
+        "fields": {
+            "user": 1,
+            "category": 2,
+            "title": "BARKSGIVING APPROACHES",
+            "publication_date": "2020-10-30",
+            "image_url": "",
+            "content": "LETS HIT IT AND QUITITTT",
             "approved": true
         }
     }
