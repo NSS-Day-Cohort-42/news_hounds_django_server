@@ -15,14 +15,14 @@ class PostViewSet(ViewSet):
         serializer = PostSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
 
-"""Serializer for RareUser Info in a post"""         
 class PostRareUserSerializer(serializers.ModelSerializer):
+    """Serializer for RareUser Info in a post"""         
     class Meta:
         model = RareUsers
         fields = ('id', 'bio', 'fullname', 'username')
 
-"""Basic Serializer for single post"""
 class PostSerializer(serializers.ModelSerializer):
+    """Basic Serializer for single post"""
     user = PostRareUserSerializer(many=False)
     class Meta:
         model = Posts
