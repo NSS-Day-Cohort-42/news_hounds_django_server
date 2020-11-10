@@ -38,6 +38,12 @@ class CategoryViewSet(ViewSet):
             return Response(serialized_category.data, status=status.HTTP_201_CREATED)
 
 
+    def list(self, request):
+        """GET all categories"""
+        categories = Categories.objects.all()
+
+        serialized_categories = CategoriesSerializer(categories, many=True)
+        return Response(serialized_categories.data, status=status.HTTP_200_OK)
 
 class CategoriesSerializer(serializers.ModelSerializer):
     """JSON serializer for categories"""
