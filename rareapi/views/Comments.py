@@ -48,12 +48,25 @@ class CommentViewSet(ViewSet):
             comments, many=True, context={'request': request})
         return Response(serializer.data)
 
+    def retrieve(self, request, pk=None):
+        """Handle GET request for single Comment
+        Returns:
+            Response JSON serielized post instance
+        """
+        try:
+            comments = Comments.objects.get(pk=pk)
+            serializer = CommentSerializer(post, context={'request': request})
+            return Response(serializer.data)
+        except Exception as ex:
+            return HttpResponseServerError(ex)
+
 class CommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comment creator"""
 
     class Meta:
         model = Comments
         fields = ('post','author', 'content', 'subject', 'created_on')
+
 
 
 
