@@ -23,16 +23,16 @@ class PostTagsViewSet(ViewSet):
         tag_id = request.data["tag_id"]
         try:
             post = Posts.objects.get(id=post_id)
-        except:
+        except Posts.DoesNotExist:
             return Response({'message: invalid post id'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         try:
             tag = Tags.objects.get(id=tag_id)
-        except:
+        except Tags.DoesNotExist:
             return Response({'message: invalid tag id'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         try: 
             posttag = PostTags.objects.get(post=post, tag=tag)
             return Response({'message': 'Posttag already exists for these two items'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-        except:
+        except PostTags.DoesNotExist:
             posttag = PostTags()
             posttag.post = post
             posttag.tag = tag
