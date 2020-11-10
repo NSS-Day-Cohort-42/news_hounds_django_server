@@ -1,4 +1,3 @@
-from rareapi.views.PostTags import PostTagsViewSet
 from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers

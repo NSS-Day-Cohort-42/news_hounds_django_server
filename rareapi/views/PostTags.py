@@ -4,6 +4,8 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 from rareapi.models import PostTags, Tags, Posts
 
+"""ViewSet for PostTags. Defines actions for listing all and by postId param, deleting and updating"""
+
 class PostTagsViewSet(ViewSet):
     def list(self, request):
 
@@ -18,28 +20,28 @@ class PostTagsViewSet(ViewSet):
 
     def create(self, request):
         post_id = request.data["post_id"]
+        tag_id = request.data["tag_id"]
         try:
             post = Posts.objects.get(id=post_id)
-            tag_id = request.data["tag_id"]
-            try: 
-                tag = Tags.objects.get(id=tag_id)
-                try:
-                    posttag = PostTags.objects.get(post=post, tag=tag)
-                    return Response({'message': 'PostTag already exists for these two items'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-                except PostTags.DoesNotExist:
-                    posttag = PostTags()
-                    posttag.post = post
-                    posttag.tag = tag
-                    try: 
-                        posttag.save()
-                        serializer = PostTagsSerializer(posttag, many=False, )
-                        return Response(serializer.data, status=status.HTTP_201_CREATED)
-                    except ValidationError as ex:
-                        return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
-            except Tags.DoesNotExist:
-                return Response({'message: invalid tag id'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-        except Posts.DoesNotExist:
+        except:
             return Response({'message: invalid post id'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        try:
+            tag = Tags.objects.get(id=tag_id)
+        except:
+            return Response({'message: invalid tag id'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        try: 
+            posttag = PostTags.objects.get(post=post, tag=tag)
+            return Response({'message': 'Posttag already exists for these two items'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        except:
+            posttag = PostTags()
+            posttag.post = post
+            posttag.tag = tag
+            try: 
+                posttag.save()
+                serializer = PostTagsSerializer(posttag, many=False, )
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except ValidationError as ex:
+                return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         try:
@@ -47,7 +49,7 @@ class PostTagsViewSet(ViewSet):
             posttag.delete()
             return Response({}, status=status.HTTP_204_NO_CONTENT)
         except PostTags.DoesNotExist as ex:
-            return Response({'message': ex.args[0]})
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
