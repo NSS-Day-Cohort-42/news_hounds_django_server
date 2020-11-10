@@ -18,18 +18,28 @@ class PostTagsViewSet(ViewSet):
 
     def create(self, request):
         post_id = request.data["post_id"]
-        post = Posts.objects.get(id=post_id)
-        tag_id = request.data["tag_id"]
-        tag = Tags.objects.get(id=tag_id)
-        posttag = PostTags()
-        posttag.post = post
-        posttag.tag = tag
-        try: 
-            posttag.save()
-            serializer = PostTagsSerializer(posttag, many=False, )
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except ValidationError as ex:
-            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            post = Posts.objects.get(id=post_id)
+            tag_id = request.data["tag_id"]
+            try: 
+                tag = Tags.objects.get(id=tag_id)
+                try:
+                    posttag = PostTags.objects.get(post=post, tag=tag)
+                    return Response({'message': 'PostTag already exists for these two items'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+                except PostTags.DoesNotExist:
+                    posttag = PostTags()
+                    posttag.post = post
+                    posttag.tag = tag
+                    try: 
+                        posttag.save()
+                        serializer = PostTagsSerializer(posttag, many=False, )
+                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    except ValidationError as ex:
+                        return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+            except Tags.DoesNotExist:
+                return Response({'message: invalid tag id'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        except Posts.DoesNotExist:
+            return Response({'message: invalid post id'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         
 
