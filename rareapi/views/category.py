@@ -1,4 +1,5 @@
 """Category ViewSet and Serializers"""
+from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status, serializers
@@ -44,6 +45,29 @@ class CategoryViewSet(ViewSet):
 
         serialized_categories = CategoriesSerializer(categories, many=True)
         return Response(serialized_categories.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        """DELETE a category with the given pk"""
+
+        try:
+            category = Categories.objects.get(pk=pk)
+
+        except Categories.DoesNotExist:
+            return Response(
+                {'message': 'There is no category with the specified ID.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if category.label == 'Uncategorized':
+            return Response(
+                {'message': 'Deleting the `Uncategorized` category is forbidden.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        category.delete()
+        return Response({}, HTTP_204_NO_CONTENT)
+
+        
 
 class CategoriesSerializer(serializers.ModelSerializer):
     """JSON serializer for categories"""
