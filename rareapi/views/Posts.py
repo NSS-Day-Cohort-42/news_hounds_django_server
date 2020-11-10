@@ -1,5 +1,6 @@
 from django.http import HttpResponseServerError
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from rest_framework.viewsets import ViewSet
 from rest_framework import serializers, status
 from rest_framework.response import Response
@@ -16,9 +17,17 @@ class PostViewSet(ViewSet):
         
         serializer = PostSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
+
          
+class PostRareUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RareUsers
+        fields = ('id', 'bio', 'fullname', 'username')
 
 class PostSerializer(serializers.ModelSerializer):
+    user = PostRareUserSerializer(many=False)
     class Meta:
         model = Posts
-        fields = ('id', 'title', 'publication_date', 'content') 
+        fields = ('id', 'title', 'publication_date', 'content', 'user', 'category')
+        depth = 1
+
