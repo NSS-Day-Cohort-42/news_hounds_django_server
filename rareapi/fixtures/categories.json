@@ -3,19 +3,26 @@
         "model": "rareapi.categories",
         "pk": 1,
         "fields": {
-            "label": "kitties n pups"
+            "label": "Uncategorized"
         }
     },
     {
         "model": "rareapi.categories",
         "pk": 2,
         "fields": {
-            "label": "large jungle creatures"
+            "label": "kitties n pups"
         }
     },
     {
         "model": "rareapi.categories",
         "pk": 3,
+        "fields": {
+            "label": "large jungle creatures"
+        }
+    },
+    {
+        "model": "rareapi.categories",
+        "pk": 4,
         "fields": {
             "label": "DAWGZ ONLY"
         }
