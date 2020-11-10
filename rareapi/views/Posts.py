@@ -18,7 +18,6 @@ class PostViewSet(ViewSet):
     
     def retrieve(self, request, pk=None):
         """Handle GET request for single post
-        
         Returns:
             Response JSON serielized post instance
         """
