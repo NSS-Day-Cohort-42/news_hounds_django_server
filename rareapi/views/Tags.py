@@ -23,7 +23,6 @@ class TagViewSet(ViewSet):
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
-    # this is not operational yet. don't even think about it. 
     def destroy(self, request, pk=None):
         try:
             tag = Tags.objects.get(pk=pk)
@@ -34,7 +33,7 @@ class TagViewSet(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
+"""Basic Tag Serializer"""
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
