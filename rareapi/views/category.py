@@ -60,7 +60,7 @@ class CategoryViewSet(ViewSet):
 
         if category.label == 'Uncategorized':
             return Response(
-                {'message': 'Deleting the "Uncategorized" category is forbidden.'},
+                {'message': 'Deleting the `Uncategorized` category is forbidden.'},
                 status=status.HTTP_403_FORBIDDEN
             )
 
