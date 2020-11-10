@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 """ View module for handling requests about posts"""
-=======
 from django.http.response import HttpResponseServerError
->>>>>>> main
 from rest_framework.viewsets import ViewSet
 from rest_framework import serializers
 from rest_framework.response import Response
@@ -17,7 +14,7 @@ class PostViewSet(ViewSet):
         """Handle POST operations
 
         Returns:
-            Response -- JSON serialized game instance
+            Response -- JSON serialized post instance
         """
         rare_user = RareUsers.objects.get(user=request.auth.user)
         post = Posts()
