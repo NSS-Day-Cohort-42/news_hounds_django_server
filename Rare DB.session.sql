@@ -1,1 +1,1 @@
-DELETE FROM rarespi_Comments
+DELETE FROM rareapi_Comments

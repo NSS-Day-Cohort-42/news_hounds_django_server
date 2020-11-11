@@ -18,13 +18,13 @@ class CommentViewSet(ViewSet):
         rare_user = RareUsers.objects.get(user=request.auth.user)
     
         comments = Comments()
-
         comments.content = request.data["content"]
         comments.subject = request.data["subject"]
         comments.author = rare_user
         comments.created_on= timezone.now()
         posts = Posts.objects.get(pk=request.data["post_id"])
         comments.post = posts
+        
         try:
             comments.save()
             serializer = CommentSerializer(comments, context={'request': request})
