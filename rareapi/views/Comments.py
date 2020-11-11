@@ -8,6 +8,28 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rareapi.models import Comments, Posts, RareUsers
 from django.utils import timezone
+
+class RareUsersSerializer(serializers.ModelSerializer):
+    """JSON serializer for rareUsers"""
+   
+
+
+    class Meta:
+        model = RareUsers
+        fields = ['id', 'username']
+
+   
+
+class CommentSerializer(serializers.ModelSerializer):
+    """JSON serializer for comment creator"""
+    author = RareUsersSerializer()
+    
+    class Meta:
+        model = Comments
+        fields = ('id','author', 'content', 'subject', 'created_on')
+
+
+
 class CommentViewSet(ViewSet):
 
     def create(self, request):
@@ -45,27 +67,9 @@ class CommentViewSet(ViewSet):
             comments, many=True, context={'request': request})
         return Response(serializer.data)
 
-   
-
-class CommentSerializer(serializers.ModelSerializer):
-    """JSON serializer for comment creator"""
-
-    class Meta:
-        model = Comments
-        fields = ( 'content', 'subject', 'created_on')
-
-class RareUsersSerializer(serializers.ModelSerializer):
-    """JSON serializer for rareUsers"""
-    user = CommentSerializer(many=False)
 
 
-    class Meta:
-        model = RareUsers
-        fields = ['user']
 
-    class Meta:
-        model = Posts
-        fields = ['id']
 
 
 
