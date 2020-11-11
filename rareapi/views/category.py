@@ -11,8 +11,6 @@ class CategoryViewSet(ViewSet):
     def create(self, request):
         """POST a new Categories object"""
 
-        # VALIDATION:
-        # Ensure that client request included the required `label` key in POST body
         try:
             label = request.data['label']
         except KeyError:

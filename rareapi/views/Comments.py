@@ -7,7 +7,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rareapi.models import Comments, Posts, RareUsers
-
+from django.utils import timezone
 class CommentViewSet(ViewSet):
 
     def create(self, request):
@@ -17,20 +17,14 @@ class CommentViewSet(ViewSet):
         """
         rare_user = RareUsers.objects.get(user=request.auth.user)
     
-      
-
         comments = Comments()
-        comments.post = request.data["post"]
-        comments.author = request.data["author"]
+
         comments.content = request.data["content"]
         comments.subject = request.data["subject"]
-        comments.created_on = request.data["created_on"]
-        comments.rare_user = rare_user
-        posts = Posts.objects.get(pk=request.data["post"])
+        comments.author = rare_user
+        comments.created_on= timezone.now()
+        posts = Posts.objects.get(pk=request.data["post_id"])
         comments.post = posts
-
- 
-
         try:
             comments.save()
             serializer = CommentSerializer(comments, context={'request': request})
@@ -44,28 +38,34 @@ class CommentViewSet(ViewSet):
             Response -- JSON serialized list of comments
         """
         comments = Comments.objects.all()
+        post_id = request.query_params.get('post_id', None)
+        if post_id is not None:
+            comments = comments.filter(post_id = post_id)
         serializer = CommentSerializer(
             comments, many=True, context={'request': request})
         return Response(serializer.data)
 
-    # def retrieve(self, request, pk=None):
-    #     """Handle GET request for single Comment
-    #     Returns:
-    #         Response JSON serielized post instance
-    #     """
-    #     try:
-    #         comments = Comments.objects.get(pk=pk)
-    #         serializer = CommentSerializer(post, context={'request': request})
-    #         return Response(serializer.data)
-    #     except Exception as ex:
-    #         return HttpResponseServerError(ex)
+   
 
 class CommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comment creator"""
 
     class Meta:
         model = Comments
-        fields = ('post','author', 'content', 'subject', 'created_on')
+        fields = ( 'content', 'subject', 'created_on')
+
+class RareUsersSerializer(serializers.ModelSerializer):
+    """JSON serializer for rareUsers"""
+    user = CommentSerializer(many=False)
+
+
+    class Meta:
+        model = RareUsers
+        fields = ['user']
+
+    class Meta:
+        model = Posts
+        fields = ['id']
 
 
 

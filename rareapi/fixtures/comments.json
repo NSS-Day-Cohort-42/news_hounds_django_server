@@ -12,7 +12,7 @@
     },
     {
         "model": "rareapi.comments",
-        "pk": 1,
+        "pk": 2,
         "fields": {
             "post": 1,
             "author": 1,
@@ -23,7 +23,7 @@
     },
     {
         "model": "rareapi.comments",
-        "pk": 1,
+        "pk": 3,
         "fields": {
             "post": 2,
             "author": 1,
