@@ -23,6 +23,15 @@ class TagViewSet(ViewSet):
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, pk=None):
+        try:
+            tag = Tags.objects.get(pk=pk)
+        except Tags.DoesNotExist:
+            return Response({'message':'tag not found'}, status=status.HTTP_404_NOT_FOUND)
+        tag.label = request.data["label"]
+        tag.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+
     def destroy(self, request, pk=None):
         try:
             tag = Tags.objects.get(pk=pk)
