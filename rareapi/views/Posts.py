@@ -41,10 +41,10 @@ class PostViewSet(ViewSet):
         post.approved = True
 
         #extract tag ids from request and try to convert that collection to a queryset of actual tags
-        tag_Ids = request.data["tagIds"]
+        tag_ids = request.data["tagIds"]
 
         try:
-            tags = [Tags.objects.get(pk=tag_Id) for tag_Id in tag_Ids]
+            tags = [Tags.objects.get(pk=tag_id) for tag_id in tag_ids]
         except Tags.DoesNotExist:
             return Response({'message': 'request contains a tagId for a non-existent tag'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
