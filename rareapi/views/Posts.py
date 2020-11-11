@@ -1,4 +1,6 @@
 """ View module for handling requests about posts"""
+from rareapi.models.PostTags import PostTags
+from rareapi.models.Tags import Tags
 from django.http.response import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework import serializers
@@ -38,21 +40,32 @@ class PostViewSet(ViewSet):
         #Posts default to approved when created
         post.approved = True
 
-        # Try to save the new post to the database, then
-        # serialize the post instance as JSON, and send the
-        # JSON as a response to the client request
+        #extract tag ids from request and try to convert that collection to a queryset of actual tags
+        tag_ids = request.data["tagIds"]
+
+        try:
+            tags = [Tags.objects.get(pk=tag_id) for tag_id in tag_ids]
+        except Tags.DoesNotExist:
+            return Response({'message': 'request contains a tagId for a non-existent tag'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        # # Try to save the new post to the database, then
+        # # serialize the post instance as JSON, and send the
+        # # JSON as a response to the client request
         try:
             post.save()
-            serializer = PostSerializer(post, context={'request': request})
-            return Response(serializer.data)
-
-        # If anything went wrong, catch the exception and
-        # send a response with a 400 status code to tell the
-        # client that something was wrong with its request data
+        # # If anything went wrong, catch the exception and
+        # # send a response with a 400 status code to tell the
+        # # client that something was wrong with its request data
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
+        #for each tag
+        for tag in tags:
+            post_tag = PostTags(post=post, tag=tag)
+            post_tag.save()
 
+        serializer = PostSerializer(post, context={'request': request})
+        return Response(serializer.data)
 
     def list(self, request):
         """Handle GET requests to posts resource
@@ -88,11 +101,17 @@ class PostRareUserSerializer(serializers.ModelSerializer):
         model = RareUsers
         fields = ('id', 'bio', 'fullname', 'username')
 
+class PostTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = ('id', 'label')
+
 class PostSerializer(serializers.ModelSerializer):
     """Basic Serializer for single post"""
     user = PostRareUserSerializer(many=False)
+    tags = PostTagSerializer(many=True)
     class Meta:
         model = Posts
-        fields = ('id', 'title', 'publication_date', 'content', 'user', 'category', 'image_url', 'approved')
+        fields = ('id', 'title', 'publication_date', 'content', 'user', 'category', 'image_url', 'approved', 'tags')
         depth = 1
 
