@@ -99,8 +99,8 @@ class PostViewSet(ViewSet):
         #save post object
         post.save()
 
-        #look through all of the posttags in the DB, and assign those for which the post is the 'post' attribute value to a new collection
-        # (in other words, the current, pre-update collection of this post's associated 'tags')
+        #look through all of the posttags in the DB, and assign those for which the post being updated is the 'post' attribute value to a new collection
+        # (in other words, the current, pre-update collection of this post's associated 'posttags')
         current_posttags = PostTags.objects.filter(post=post)
 
         #create new queryset from the collection above that is ONLY those posttags for which the 'tag' attribute value doesn't match 
