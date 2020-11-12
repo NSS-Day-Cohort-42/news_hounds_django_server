@@ -67,6 +67,58 @@ class PostViewSet(ViewSet):
         serializer = PostSerializer(post, context={'request': request})
         return Response(serializer.data)
 
+
+    def update(self, request, pk=None):
+        """ Handle an update request for a post
+
+        'user', 'publication_date' and 'approved' attributes are not subject to change on update as currently configured 
+        """
+
+        ##Find the post being updated based on it's primary key  
+        post = Posts.objects.get(pk=pk)
+
+        #try to find the category that matches the one referenced in the request and save it as the post's 'category' value
+        try: 
+            category = Categories.objects.get(pk=request.data["category_id"])
+            post.category = category
+        except Categories.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
+        #save basic (non-associated) properties
+        post.title = request.data["title"]
+        post.image_url = request.data["image_url"]
+        post.content = request.data["content"]
+
+        #extract tag ids from request and try to convert that collection to a queryset of actual tags
+        request_tag_ids = request.data["tagIds"]
+        try:
+            request_tags = [ Tags.objects.get(pk=tag_id) for tag_id in request_tag_ids ]
+        except Tags.DoesNotExist:
+            return Response({'message': 'request contains a tagId for a non-existent tag'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+        #save post object
+        post.save()
+
+        #look through all of the posttags in the DB, and assign those for which the post is the 'post' attribute value to a new collection
+        # (in other words, the current, pre-update collection of this post's associated 'tags')
+        current_posttags = PostTags.objects.filter(post=post)
+
+        #create new queryset from the collection above that is ONLY those posttags for which the 'tag' attribute value doesn't match 
+        #any of the tags specified in the request. Then delete them all. 
+        current_posttags.exclude(tag__in=request_tags).delete()
+
+        # for each tag in the set of 'tags' from the request, try to find an existing entry in the current_posttags that
+        # matches that relationship; if one doesn't exist, create it
+        for tag in request_tags:
+            try:
+                current_posttags.get(tag=tag)
+            except PostTags.DoesNotExist:
+                new_posttag = PostTags(post=post,tag=tag)
+                new_posttag.save()
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        
+
     def list(self, request):
         """Handle GET requests to posts resource
 
