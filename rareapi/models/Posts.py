@@ -18,3 +18,14 @@ class Posts(models.Model):
     image_url = models.CharField(max_length=300)
     content = models.CharField(max_length=1000)
     approved = models.BooleanField()
+
+    @property
+    def tags(self):
+        """Property to access each post's associated tag instances
+        
+        posttags_set is a queryset of posttags objects for which the post instance 
+        (aka self)'s primary key exists as that posttag's "post_id" foreign key
+        """
+        
+        post_tags = self.posttags_set.all()
+        return [ pt.tag for pt in post_tags]

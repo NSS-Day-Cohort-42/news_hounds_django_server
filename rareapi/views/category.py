@@ -66,8 +66,38 @@ class CategoryViewSet(ViewSet):
 
         category.delete()
         return Response({}, HTTP_204_NO_CONTENT)
+    
+    
+    def retrieve(self, request, pk=None):
+        """Handle GET request for single post
+        Returns:
+            Response JSON serielized post instance
+        """
+        try:
+            category = Categories.objects.get(pk=pk)
+            serializer = CategoriesSerializer(category, context={'request': request})
+            return Response(serializer.data)
+        except Exception as ex:
+            return HttpResponseServerError(ex)
 
+    def update(self, request, pk=None):
+        """Handle PUT requests for a game
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+        # Do mostly the same thing as POST, but instead of
+        # creating a new instance of Category, get the Category record
+        # from the database whose primary key is `pk`
+        category = Categories.objects.get(pk=pk)
+        category.label = request.data["label"]
         
+
+        category.save()
+
+        # 204 status code means everything worked but the
+        # server is not sending back any data in the response
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 class CategoriesSerializer(serializers.ModelSerializer):
     """JSON serializer for categories"""
