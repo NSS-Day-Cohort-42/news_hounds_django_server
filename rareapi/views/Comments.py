@@ -83,6 +83,15 @@ class CommentViewSet(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def destroy(self, request, pk=None):
+        try:
+            comment = Comments.objects.get(pk=pk)
+            comment.delete()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except Comments.DoesNotExist as ex:
+            return Response({'message': ex.args[0]})
+        except Exception as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
