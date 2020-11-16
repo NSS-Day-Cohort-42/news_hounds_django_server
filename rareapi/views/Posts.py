@@ -120,7 +120,37 @@ class PostViewSet(ViewSet):
                 new_posttag.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+    def partial_update(self, request, pk=None):
+        """Handle a partial update to a Post resource. Handles PATCH requests
+
+        Currently this will only update the `approved` property"""
+
+        try:
+            post = Posts.objects.get(pk=pk)
+        except Posts.DoesNotExist:
+            return Response(
+                {'message': 'There is no Post with the given id.'},
+                status=status.HTTP_404_NOT_FOUND)
+
+        if 'approved' in request.data:
+            # The user is trying to update the approved property on the post
+            # Only let them do it if they are an admin user
+            if not request.auth.user.is_staff:
+                return Response(
+                    {'message': 'Only admin users can modify the approved status of a post'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+
+            post.approved = request.data['approved']
         
+        # Save whatever has been updated in the PATCH request
+        try:
+            post.save()
+        except ValidationError as ex:
+            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)       
 
     def list(self, request):
         """Handle GET requests to posts resource
