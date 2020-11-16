@@ -1,4 +1,3 @@
-from django.http.response import HttpResponseServerError
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
@@ -20,7 +19,7 @@ class ProfileViewSet(ViewSet):
     def update_role(self, request, pk=None):
         try:
             rare_user = RareUsers.objects.get(pk=pk)
-            user = User.objects.get(pk=rare_user.id)
+            user = rare_user.user
         except RareUsers.DoesNotExist:
             return Response({'message': 'user does not exit'}, status=status.HTTP_404_NOT_FOUND)
         if not request.auth.user.is_staff:
