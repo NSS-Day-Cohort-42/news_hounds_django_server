@@ -6,7 +6,7 @@ from rest_framework import status
 from django.core.exceptions import ValidationError
 
 class ProfileViewSet(ViewSet):
-    @action(methods=['put'], detail=True)
+    @action(methods=['patch'], detail=True)
     def update_role(self, request, pk=None):
         try:
             user = User.objects.get(pk=pk)
@@ -24,17 +24,3 @@ class ProfileViewSet(ViewSet):
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
-
-
-
-
-
-        # try:
-        #     user = User.objects.get(pk=pk)
-        #     if user.is_staff:
-        #         user.is_staff = False
-        #     else:
-        #         user.is_staff = True
-        #     user.save()
-        #     return Response({}, status=status.HTTP_204_NO_CONTENT)
-        # except 
