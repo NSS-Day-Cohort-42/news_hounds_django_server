@@ -132,6 +132,7 @@ class PostViewSet(ViewSet):
 
         if 'approved' in request.data:
             # The user is trying to update the approved property on the post
+            # Only let them do it if they are an admin user
             if not request.auth.user.is_staff:
                 return Response(
                     {'message': 'Only admin users can modify the approved status of a post'},
@@ -140,6 +141,7 @@ class PostViewSet(ViewSet):
 
             post.approved = request.data['approved']
         
+        # Save whatever has been updated in the PATCH request
         try:
             post.save()
         except ValidationError as ex:
