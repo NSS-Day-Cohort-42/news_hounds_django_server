@@ -7,7 +7,7 @@
             "category": 3,
             "title": "BARKSGIVING APPROACHES",
             "publication_date": "2020-08-18",
-            "image_url": "",
+            "image_url": "http://photos1.blogger.com/blogger/2242/1570/1600/Dog%20Turkey%20Day.jpg",
             "content": "dog sum? imsum. LOTS OF BARK BARK fluffy heckin puppers etc",
             "approved": true
         }
@@ -18,9 +18,9 @@
         "fields": {
             "user": 1,
             "category": 3,
-            "title": "Someting about dogs",
+            "title": "Something about dogs",
             "publication_date": "2020-09-28",
-            "image_url": "",
+            "image_url": "http://i1.wp.com/sarcasticdog.com/wp-content/uploads/2015/09/Clark-gallery.png",
             "content": "I dont know, LITERALLY this is filler text ya'll come awwnn",
             "approved": true
         }
@@ -31,10 +31,10 @@
         "fields": {
             "user": 1,
             "category": 3,
-            "title": "BARKSGIVING APPROACHES",
+            "title": "Person is carrying dog on beach",
             "publication_date": "2020-10-30",
-            "image_url": "",
-            "content": "LETS HIT IT AND QUITITTT",
+            "image_url": "https://images.unsplash.com/photo-1601758174811-a04aad8f2245?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+            "content": "This person carries dog on beach",
             "approved": true
         }
     }
