@@ -34,5 +34,23 @@
             "groups": [],
             "user_permissions": []
         }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$bKNzCbuFypYQ$Cr8ZQVSJuMeYCXrLo5e6g5e+e8BjDn2tnb911ZsLfjc=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "mike",
+            "first_name": "Michael",
+            "last_name": "Tyler",
+            "email": "mike@mike.mike",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-11-16 20:16:13.987043",
+            "groups": [],
+            "user_permissions": []
+        }
     }
 ]

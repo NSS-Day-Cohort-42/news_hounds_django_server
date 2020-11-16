@@ -4,3 +4,4 @@ from .Posts import Posts
 from .PostTags import PostTags
 from .RareUsers import RareUsers
 from .Tags import Tags
+from .Subscriptions import Subscriptions

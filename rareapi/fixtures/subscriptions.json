@@ -1,0 +1,10 @@
+[
+    {
+        "model":"rareapi.subscriptions",
+        "pk": 1,
+        "fields": {
+            "follower": 1,
+            "author": 3
+        }
+    }
+]

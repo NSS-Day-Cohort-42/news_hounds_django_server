@@ -5,3 +5,4 @@ from .Posts import PostViewSet
 from .Tags import TagViewSet
 from .Comments import CommentViewSet
 from .PostTags import PostTagsViewSet
+# from .Subscriptions import SubscriptionViewSet
