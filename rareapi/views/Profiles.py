@@ -21,7 +21,7 @@ class ProfileViewSet(ViewSet):
         try:
             rare_user = RareUsers.objects.get(pk=pk)
             user = User.objects.get(pk=rare_user.id)
-        except User.DoesNotExist:
+        except RareUsers.DoesNotExist:
             return Response({'message': 'user does not exit'}, status=status.HTTP_404_NOT_FOUND)
         if not request.auth.user.is_staff:
             return Response({'message':'only admins can change user roles'}, status=status.HTTP_403_FORBIDDEN)
