@@ -15,24 +15,26 @@ class ProfileViewSet(ViewSet):
         return Response(serializer.data)
 
 
-    """PLEASE DISREGARD THE COMMENTED IT IS NOT UP TO STANDARDS"""
-    # @action(methods=['patch'], detail=True)
-    # def update_role(self, request, pk=None):
-    #     try:
-    #         user = User.objects.get(pk=pk)
-    #     except User.DoesNotExist:
-    #         return Response({'message': 'user does not exit'}, status=status.HTTP_404_NOT_FOUND)
-    #     if not request.auth.user.is_staff:
-    #         return Response({'message':'only admins can change user roles'}, status=status.HTTP_403_FORBIDDEN)
-    #     if user.is_staff:
-    #         user.is_staff = False
-    #     else:
-    #         user.is_staff = True
-    #     try:
-    #         user.save()
-    #     except ValidationError as ex:
-    #         return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
-    #     return Response({}, status=status.HTTP_204_NO_CONTENT)
+    """action to toggle between admin and author status depending on message from client"""
+    @action(methods=['patch'], detail=True)
+    def update_role(self, request, pk=None):
+        try:
+            rare_user = RareUsers.objects.get(pk=pk)
+            user = User.objects.get(pk=rare_user.id)
+        except User.DoesNotExist:
+            return Response({'message': 'user does not exit'}, status=status.HTTP_404_NOT_FOUND)
+        if not request.auth.user.is_staff:
+            return Response({'message':'only admins can change user roles'}, status=status.HTTP_403_FORBIDDEN)
+        if request.data["update_role"] == "author":
+            user.is_staff = False
+        else: 
+            if request.data["update_role"] == "admin":
+                user.is_staff = True
+        try:
+            user.save()
+        except ValidationError as ex:
+            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 class BasicProfileSerializer(serializers.ModelSerializer):
     class Meta:
