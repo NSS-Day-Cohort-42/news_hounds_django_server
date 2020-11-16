@@ -24,10 +24,10 @@ class ProfileViewSet(ViewSet):
             return Response({'message': 'user does not exit'}, status=status.HTTP_404_NOT_FOUND)
         if not request.auth.user.is_staff:
             return Response({'message':'only admins can change user roles'}, status=status.HTTP_403_FORBIDDEN)
-        if request.data["update_role"] == "author":
+        if request.data["is_staff"] == "false":
             user.is_staff = False
         else: 
-            if request.data["update_role"] == "admin":
+            if request.data["is_staff"] == "true":
                 user.is_staff = True
         try:
             user.save()
