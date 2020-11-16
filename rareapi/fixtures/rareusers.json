@@ -9,5 +9,16 @@
             "active": true,
             "created_on": "2020-08-28T14:51:39.989Z"
         }
-    }
+    },
+    {
+      "model": "rareapi.rareusers",
+      "pk": 2,
+      "fields": {
+          "bio": "Love 2 administrate",
+          "profile_image_url": "",
+          "user": 2,
+          "active": true,
+          "created_on": "2020-08-28T14:51:39.989Z"
+      }
+  }
 ]

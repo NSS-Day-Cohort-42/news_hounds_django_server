@@ -30,7 +30,11 @@ def login_user(request):
         if authenticated_user is not None:
             token = Token.objects.get(user=authenticated_user)
             rare_user = RareUsers.objects.get(user=authenticated_user)
-            data = json.dumps({"valid": True, "token": token.key, "user_id": rare_user.id})
+            data = json.dumps(
+                {"valid": True, 
+                "token": token.key, 
+                "user_id": rare_user.id, 
+                "is_admin": authenticated_user.is_staff })
             return HttpResponse(data, content_type='application/json')
 
         else:
@@ -57,7 +61,8 @@ def register_user(request):
         email=req_body['email'],
         password=req_body['password'],
         first_name=req_body['first_name'],
-        last_name=req_body['last_name']
+        last_name=req_body['last_name'],
+        is_staff=False
     )
 
     # Now save the extra info in the RareUsers table
@@ -80,5 +85,6 @@ def register_user(request):
     # Also, return the user id to the client so that they can determine which posts belong to the current user
     data = json.dumps(
         {"token": token.key,
-        "user_id": rare_user.id})
+        "user_id": rare_user.id,
+        "is_admin": new_user.is_staff })
     return HttpResponse(data, content_type='application/json')
