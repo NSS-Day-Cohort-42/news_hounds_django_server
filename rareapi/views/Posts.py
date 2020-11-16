@@ -37,8 +37,11 @@ class PostViewSet(ViewSet):
         post.image_url = request.data["image_url"]
         post.content = request.data["content"]
         
-        #Posts default to approved when created
-        post.approved = True
+        #See if author is admin; if so, assign approved to True, else False
+        if request.auth.user.is_staff:
+            post.approved = True
+        else:
+            post.approved = False
 
         #extract tag ids from request and try to convert that collection to a queryset of actual tags
         tag_ids = request.data["tagIds"]
