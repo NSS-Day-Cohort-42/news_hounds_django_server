@@ -20,16 +20,16 @@
           "active": true,
           "created_on": "2020-08-28T14:51:39.989Z"
       }
-  },
-  {
-    "model": "rareapi.rareusers",
-    "pk": 3,
-    "fields": {
-        "bio": "I am Mike",
-        "profile_image_url": "",
-        "user": 3,
-        "active": true,
-        "created_on": "2020-11-16T20:16:14.158580"
+    },
+    {
+      "model": "rareapi.rareusers",
+      "pk": 3,
+      "fields": {
+          "bio": "ghost",
+          "profile_image_url": "",
+          "user": 3,
+          "active": false,
+          "created_on": "2020-08-28T14:51:39.989Z"
+      }
     }
-}
 ]

@@ -39,16 +39,16 @@
         "model": "auth.user",
         "pk": 3,
         "fields": {
-            "password": "pbkdf2_sha256$216000$bKNzCbuFypYQ$Cr8ZQVSJuMeYCXrLo5e6g5e+e8BjDn2tnb911ZsLfjc=",
+            "password": "pbkdf2_sha256$216000$qMRH8szID7Z8$Vljya2V3XfruOHuvx1hGz9ZyKg4bxbw7rc2WO0gTR7I=",
             "last_login": null,
             "is_superuser": false,
-            "username": "mike",
-            "first_name": "Michael",
-            "last_name": "Tyler",
-            "email": "mike@mike.mike",
+            "username": "inactiveUser",
+            "first_name": "inactive",
+            "last_name": "user",
+            "email": "inactive@test.test",
             "is_staff": false,
             "is_active": true,
-            "date_joined": "2020-11-16T20:16:13.987043",
+            "date_joined": "2020-08-28T14:51:39.989Z",
             "groups": [],
             "user_permissions": []
         }
