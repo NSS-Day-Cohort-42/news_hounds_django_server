@@ -27,7 +27,7 @@ class ProfileViewSet(ViewSet):
         if 'active' in request.data:
             #The client is trying to update the active property on the user
             #Only let them do it if they are an admin user
-            if not request.auth.is_staff:
+            if not request.auth.user.is_staff:
                 return Response(
                     {'message': 'Only admin users can modify the active status of a user'},
                     status=status.HTTP_403_FORBIDDEN
