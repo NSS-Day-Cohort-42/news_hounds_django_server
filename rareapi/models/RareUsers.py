@@ -21,3 +21,8 @@ class RareUsers(models.Model):
     @property
     def is_staff(self):
         return self.user.is_staff
+
+    @property
+    def authors_following(self):
+        active_subscriptions = self.following_set.filter(ended_on__isnull=True)
+        return [ subscription.author for subscription in active_subscriptions ]
