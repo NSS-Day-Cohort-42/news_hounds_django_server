@@ -27,8 +27,8 @@ def login_user(request):
         authenticated_user = authenticate(username=username, password=password)
 
         # If authentication was successful, respond with their token
-        try:
-            if authenticated_user.active == True:
+        if authenticated_user is not None:
+            if authenticated_user.rareusers.active:
                 
                 token = Token.objects.get(user=authenticated_user)
                 rare_user = RareUsers.objects.get(user=authenticated_user)
@@ -44,7 +44,7 @@ def login_user(request):
                 data = json.dumps({"valid": False})
                 return HttpResponse(data, content_type='application/json')
 
-        except AttributeError:
+        else:
             data = json.dumps({"valid": False, "message": "user not active"})
             return HttpResponse(data, content_type='application/json')
 
