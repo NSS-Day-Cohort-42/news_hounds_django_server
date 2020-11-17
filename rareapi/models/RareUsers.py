@@ -17,3 +17,7 @@ class RareUsers(models.Model):
     @property
     def username(self):
         return f"{self.user.username}"
+
+    @property
+    def is_staff(self):
+        return self.user.is_staff
