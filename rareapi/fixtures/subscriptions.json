@@ -1,0 +1,11 @@
+[
+    {
+        "model":"rareapi.subscriptions",
+        "pk": 1,
+        "fields": {
+            "follower": 1,
+            "author": 3,
+            "created_on": "2020-08-28T14:51:39.989Z"
+        }
+    }
+]
