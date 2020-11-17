@@ -167,6 +167,11 @@ class PostViewSet(ViewSet):
         category_id = self.request.query_params.get('category_id', None)
         if category_id is not None:
             posts = posts.filter(category_id=category_id)
+
+        subscribed = self.request.query_params.get('subscribed', None)
+        if subscribed == "true":
+            current_rare_user = RareUsers.objects.get(user=request.auth.user)
+            posts = posts.filter(user__in=current_rare_user.authors_following)
         
         serializer = PostSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
