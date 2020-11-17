@@ -1,3 +1,4 @@
+from rareapi.views.Subscriptions import SubscriptionsViewSet
 from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
@@ -11,6 +12,7 @@ router.register(r'tags', TagViewSet, 'tag')
 router.register(r'comments', CommentViewSet, 'comment')
 router.register(r'posttags', PostTagsViewSet, 'posttags' )
 router.register(r'categories', CategoryViewSet, 'category')
+router.register(r'subscriptions', SubscriptionsViewSet, 'subscription')
 
 urlpatterns = [
     path('', include(router.urls)),
