@@ -24,5 +24,10 @@ class RareUsers(models.Model):
 
     @property
     def authors_following(self):
-        active_subscriptions = self.following_set.filter(ended_on__isnull=True)
+        """Property to easily access list of authors as RareUsers that user is currently subscribed to"""
+        # get QuerySet of subscription objects where this RareUser is the `follower` that are active
+        # (active subscription == subscription where ended_on is None)
+        active_subscriptions = self.follows_subscriptions.filter(ended_on__isnull=True)
+
+        # return list of just the author RareUsers objects for those subscriptions
         return [ subscription.author for subscription in active_subscriptions ]
