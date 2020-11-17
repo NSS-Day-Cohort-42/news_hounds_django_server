@@ -27,19 +27,25 @@ def login_user(request):
         authenticated_user = authenticate(username=username, password=password)
 
         # If authentication was successful, respond with their token
-        if authenticated_user is not None:
-            token = Token.objects.get(user=authenticated_user)
-            rare_user = RareUsers.objects.get(user=authenticated_user)
-            data = json.dumps(
-                {"valid": True, 
-                "token": token.key, 
-                "user_id": rare_user.id, 
-                "is_admin": authenticated_user.is_staff })
-            return HttpResponse(data, content_type='application/json')
+        try:
+            if authenticated_user.active == True:
+                
+                token = Token.objects.get(user=authenticated_user)
+                rare_user = RareUsers.objects.get(user=authenticated_user)
+                data = json.dumps(
+                    {"valid": True, 
+                    "token": token.key, 
+                    "user_id": rare_user.id, 
+                    "is_admin": authenticated_user.is_staff })
+                return HttpResponse(data, content_type='application/json')
 
-        else:
-            # Bad login details were provided. So we can't log the user in.
-            data = json.dumps({"valid": False})
+            else:
+                # Bad login details were provided. So we can't log the user in.
+                data = json.dumps({"valid": False})
+                return HttpResponse(data, content_type='application/json')
+
+        except AttributeError:
+            data = json.dumps({"valid": False, "message": "user not active"})
             return HttpResponse(data, content_type='application/json')
 
 
