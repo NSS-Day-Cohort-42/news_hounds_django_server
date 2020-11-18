@@ -13,6 +13,12 @@ class TagViewSet(ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to create tags.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         tag = Tags()
         tag.label = request.data["label"]
         
