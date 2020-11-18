@@ -159,6 +159,11 @@ class PostViewSet(ViewSet):
             Response -- JSON serialized list of posts
         """
         posts = Posts.objects.all()
+        rare_user = RareUsers.objects.get(user=request.auth.user)
+
+        #Prevent non-admin users from accessing un-approved posts from other users
+        if not request.auth.user.is_staff:
+            posts = posts.filter(approved=True, user_id=rare_user.id)
 
         # e.g.: /posts?user_id=1
         user_id = self.request.query_params.get('user_id', None)

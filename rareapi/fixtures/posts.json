@@ -37,5 +37,18 @@
             "content": "This person carries dog on beach",
             "approved": true
         }
+    },
+    {
+        "model": "rareapi.posts",
+        "pk": 4,
+        "fields": {
+            "user": 3,
+            "category": 3,
+            "title": "BAD POST, BAD!!!!",
+            "publication_date": "2020-10-30",
+            "image_url": "",
+            "content": "***Chews Carpet***",
+            "approved": false
+        }
     }
 ]
