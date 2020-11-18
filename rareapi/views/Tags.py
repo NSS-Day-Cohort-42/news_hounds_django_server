@@ -30,6 +30,12 @@ class TagViewSet(ViewSet):
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to update tags.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         try:
             tag = Tags.objects.get(pk=pk)
         except Tags.DoesNotExist:
