@@ -79,6 +79,13 @@ class PostViewSet(ViewSet):
 
         ##Find the post being updated based on it's primary key  
         post = Posts.objects.get(pk=pk)
+        
+        #Prevent non-admin users from modifying other user's posts
+        rare_user = RareUsers.objects.get(user=request.auth.user)
+        if not request.auth.user.is_staff:
+            if rare_user.id != post.user_id:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
         #try to find the category that matches the one referenced in the request and save it as the post's 'category' value
         try: 
@@ -132,6 +139,12 @@ class PostViewSet(ViewSet):
             return Response(
                 {'message': 'There is no Post with the given id.'},
                 status=status.HTTP_404_NOT_FOUND)
+        
+        #Prevent non-admin users from modifying other user's posts
+        rare_user = RareUsers.objects.get(user=request.auth.user)
+        if not request.auth.user.is_staff:
+            if rare_user.id != post.user_id:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
         if 'approved' in request.data:
             # The user is trying to update the approved property on the post
