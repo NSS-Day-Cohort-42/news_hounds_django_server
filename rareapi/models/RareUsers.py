@@ -35,3 +35,7 @@ class RareUsers(models.Model):
     @property
     def email(self):
         return f"{self.user.email}"
+
+    @property
+    def post_count(self):
+        return len(self.posts_set.all())
