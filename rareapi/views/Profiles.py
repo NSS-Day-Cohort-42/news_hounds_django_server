@@ -15,9 +15,9 @@ class ProfileViewSet(ViewSet):
         return Response(serializer.data)
     
     def retrieve(self, request, pk=None):
-        """Handle GET request for single post
+        """Handle GET request for single profile
         Returns:
-            Response JSON serielized post instance
+            Response JSON serielized profile instance
         """
         try:
             rare_user = RareUsers.objects.get(pk=pk)
