@@ -12,6 +12,13 @@ class CategoryViewSet(ViewSet):
         """POST a new Categories object"""
 
         # VALIDATION:
+        # Ensure that the user is an admin
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to create categories.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         # Ensure that client request included the required `label` key in POST body
         try:
             label = request.data['label']
