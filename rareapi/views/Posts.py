@@ -160,13 +160,24 @@ class PostViewSet(ViewSet):
         """
         posts = Posts.objects.all()
 
+        # e.g.: /posts?user_id=1
         user_id = self.request.query_params.get('user_id', None)
         if user_id is not None:
             posts = posts.filter(user_id=user_id)
 
+        # e.g.: /posts?category_id=1
         category_id = self.request.query_params.get('category_id', None)
         if category_id is not None:
             posts = posts.filter(category_id=category_id)
+
+        # e.g.: /posts?subscribed=true
+        subscribed = self.request.query_params.get('subscribed', None)
+        if subscribed == "true":
+            current_rare_user = RareUsers.objects.get(user=request.auth.user)
+
+            # filter down posts to only those whose author is in the list of authors the current
+            # user is actively following
+            posts = posts.filter(user__in=current_rare_user.authors_following)
         
         serializer = PostSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
