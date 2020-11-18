@@ -56,6 +56,12 @@ class CategoryViewSet(ViewSet):
     def destroy(self, request, pk=None):
         """DELETE a category with the given pk"""
 
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to delete categories.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         try:
             category = Categories.objects.get(pk=pk)
 
