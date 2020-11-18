@@ -74,7 +74,7 @@ class ProfileViewSet(ViewSet):
             user.save()
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_204_NO_CONTENT) 
 
 class BasicProfileSerializer(serializers.ModelSerializer):
     class Meta:
