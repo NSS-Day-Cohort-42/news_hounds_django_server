@@ -99,6 +99,12 @@ class CategoryViewSet(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to update categories.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         # Do mostly the same thing as POST, but instead of
         # creating a new instance of Category, get the Category record
         # from the database whose primary key is `pk`
