@@ -31,3 +31,7 @@ class RareUsers(models.Model):
 
         # return list of just the author RareUsers objects for those subscriptions
         return [ subscription.author for subscription in active_subscriptions ]
+    
+    @property
+    def email(self):
+        return f"{self.user.email}"
