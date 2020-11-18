@@ -1,5 +1,6 @@
 """Database Post module"""
 from django.db import models
+from django.db.models import Count
 from rareapi.models import Categories
 
 
@@ -28,4 +29,14 @@ class Posts(models.Model):
         post_tags = self.posttags_set.all()
         return [ pt.tag for pt in post_tags]
     
+    @property
+    def reactions(self):
+        """ property to access all reactions for a post and return their label and total 
+        per-post count in key:val pairs
+        """
+        post_reactions = self.postreactions_set.all()
+        return post_reactions.values('reaction__label', 'reaction__image_url').annotate(count=Count('reaction__id'))
+
+
+
     

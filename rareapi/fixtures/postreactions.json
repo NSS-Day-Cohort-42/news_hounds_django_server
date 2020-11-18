@@ -1,0 +1,83 @@
+[
+    {
+        "model": "rareapi.postreactions",
+        "pk": 1,
+        "fields": {
+           "user": 1,
+           "reaction": 1,
+           "post": 1
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 2,
+        "fields": {
+           "user": 1,
+           "reaction": 2,
+           "post": 1
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 3,
+        "fields": {
+           "user": 1,
+           "reaction": 3,
+           "post": 1
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 4,
+        "fields": {
+           "user": 1,
+           "reaction": 1,
+           "post": 2
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 5,
+        "fields": {
+           "user": 2,
+           "reaction": 1,
+           "post": 1
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 6,
+        "fields": {
+           "user": 2,
+           "reaction": 2,
+           "post": 1
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 7,
+        "fields": {
+           "user": 2,
+           "reaction": 3,
+           "post": 1
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 8,
+        "fields": {
+           "user": 2,
+           "reaction": 1,
+           "post": 2
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 9,
+        "fields": {
+           "user": 1,
+           "reaction": 4,
+           "post": 1
+        }
+    }
+]

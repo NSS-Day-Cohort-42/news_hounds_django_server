@@ -204,6 +204,9 @@ class PostViewSet(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    
+    
+
 class PostRareUserSerializer(serializers.ModelSerializer):
     """Serializer for RareUser Info in a post"""         
     class Meta:
@@ -221,6 +224,6 @@ class PostSerializer(serializers.ModelSerializer):
     tags = PostTagSerializer(many=True)
     class Meta:
         model = Posts
-        fields = ('id', 'title', 'publication_date', 'content', 'user', 'category', 'image_url', 'approved', 'tags')
+        fields = ('id', 'title', 'publication_date', 'content', 'user', 'category', 'image_url', 'approved', 'tags', 'reactions')
         depth = 1
 
