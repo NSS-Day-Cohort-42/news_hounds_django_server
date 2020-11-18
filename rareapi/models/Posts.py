@@ -35,7 +35,7 @@ class Posts(models.Model):
         per-post count in key:val pairs
         """
         post_reactions = self.postreactions_set.all()
-        return post_reactions.values('reaction__label', 'reaction__image_url').annotate(count=Count('reaction__id'))
+        return post_reactions.values('reaction__label', 'reaction__id').annotate(count=Count('reaction__id'))
 
 
 

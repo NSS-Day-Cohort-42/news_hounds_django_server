@@ -14,7 +14,8 @@ class ReactionsViewSet(ViewSet):
         except Exception as ex:
             return Response({'message' : ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class ReactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reactions
-        fields = '__all__'
+        fields = ('label', 'image_url', 'id')

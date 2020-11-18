@@ -4,7 +4,7 @@
         "pk": 1,
         "fields": {
             "label": "Love",
-            "image_url": "/media/reactions/Love.png"
+            "image_url": "reactions/Love.png"
         }
     },
     {
@@ -12,7 +12,7 @@
         "pk": 2,
         "fields": {
             "label": "Mindblown",
-            "image_url": "/media/reactions/Mindblown.png"
+            "image_url": "reactions/Mindblown.png"
         }
     },
     {
@@ -20,7 +20,7 @@
         "pk": 3,
         "fields": {
             "label": "Interesting",
-            "image_url": "/media/reactions/Interesting.png"
+            "image_url": "reactions/Interesting.png"
         }
     },
     {
@@ -28,15 +28,15 @@
         "pk": 4,
         "fields": {
             "label": "Nuclear",
-            "image_url": "/media/reactions/Nuclear.png"
+            "image_url": "reactions/Nuclear.png"
         }
     },
     {
         "model": "rareapi.reactions",
-        "pk": 4,
+        "pk": 5,
         "fields": {
             "label": "GoodBoy",
-            "image_url": "/media/reactions/GoodBoy.png"
+            "image_url": "reactions/GoodBoy.png"
         }
     }
 ]
