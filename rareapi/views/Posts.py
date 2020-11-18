@@ -172,10 +172,10 @@ class PostViewSet(ViewSet):
             Response -- JSON serialized list of posts
         """
         posts = Posts.objects.all()
-        rare_user = RareUsers.objects.get(user=request.auth.user)
 
         #Prevent non-admin users from accessing un-approved posts from other users
         if not request.auth.user.is_staff:
+            rare_user = RareUsers.objects.get(user=request.auth.user)
             posts = posts.filter(approved=True, user_id=rare_user.id)
 
         # e.g.: /posts?user_id=1
@@ -207,6 +207,12 @@ class PostViewSet(ViewSet):
         """
         try:
             post = Posts.objects.get(pk=pk)
+            
+            #Prevent non-admin users from accessing un-approved posts from other users
+            rare_user = RareUsers.objects.get(user=request.auth.user)
+            if not request.auth.user.is_staff and not post.user_id == rare_user.id:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
             serializer = PostSerializer(post, context={'request': request})
             return Response(serializer.data)
         except Exception as ex:
