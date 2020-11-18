@@ -21,3 +21,7 @@ class RareUsers(models.Model):
     @property
     def is_staff(self):
         return self.user.is_staff
+    
+    @property
+    def email(self):
+        return f"{self.user.email}"
