@@ -39,4 +39,7 @@ class RareUsers(models.Model):
     @property
     def post_count(self):
         """Property returning the count of posts this RareUser has created"""
+
+        # you can access all of the Posts where the user foreign key
+        # points to "this" user via self.posts_set
         return len(self.posts_set.all())
