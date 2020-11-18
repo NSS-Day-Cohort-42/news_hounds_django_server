@@ -1,8 +1,8 @@
 """Category ViewSet and Serializers"""
-from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status, serializers
+from django.http.response import HttpResponseServerError
 from rareapi.models import Categories
 
 class CategoryViewSet(ViewSet):
@@ -65,7 +65,7 @@ class CategoryViewSet(ViewSet):
             )
 
         category.delete()
-        return Response({}, HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
     
     
     def retrieve(self, request, pk=None):
