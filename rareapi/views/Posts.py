@@ -210,6 +210,6 @@ class PostSerializer(serializers.ModelSerializer):
     tags = PostTagSerializer(many=True)
     class Meta:
         model = Posts
-        fields = ('id', 'title', 'publication_date', 'content', 'user', 'category', 'image_url', 'approved', 'tags')
+        fields = ('id', 'title', 'publication_date', 'content', 'user', 'category', 'image_url', 'approved', 'tags', 'reactions')
         depth = 1
 

@@ -1,0 +1,34 @@
+[
+    {
+        "model": "rareapi.reactions",
+        "pk": 1,
+        "fields": {
+            "label": "Love",
+            "image_url": ""
+        }
+    },
+    {
+        "model": "rareapi.reactions",
+        "pk": 2,
+        "fields": {
+            "label": "Mindblown",
+            "image_url": ""
+        }
+    },
+    {
+        "model": "rareapi.reactions",
+        "pk": 3,
+        "fields": {
+            "label": "Interesting",
+            "image_url": ""
+        }
+    },
+    {
+        "model": "rareapi.reactions",
+        "pk": 4,
+        "fields": {
+            "label": "Nuclear",
+            "image_url": ""
+        }
+    }
+]
