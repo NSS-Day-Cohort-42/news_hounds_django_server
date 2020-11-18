@@ -6,12 +6,25 @@ from rareapi.models import RareUsers
 from rest_framework import status
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
+from django.http.response import HttpResponseServerError
 
 class ProfileViewSet(ViewSet):
     def list(self, request):
         users = RareUsers.objects.all()
         serializer = BasicProfileSerializer(users, many=True, context={'request':request})
         return Response(serializer.data)
+    
+    def retrieve(self, request, pk=None):
+        """Handle GET request for single post
+        Returns:
+            Response JSON serielized post instance
+        """
+        try:
+            rare_user = RareUsers.objects.get(pk=pk)
+            serializer = BasicProfileSerializer(rare_user, context={'request': request})
+            return Response(serializer.data)
+        except Exception as ex:
+            return HttpResponseServerError(ex)
 
 
     """action to toggle between admin and author status depending on message from client"""
@@ -38,7 +51,7 @@ class ProfileViewSet(ViewSet):
 class BasicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = RareUsers
-        fields = ('id', 'username', 'is_staff', 'active')
+        fields = ('id', 'username', 'is_staff', 'active', 'email', 'created_on', 'profile_image_url', 'fullname' )
     
 
 
