@@ -42,14 +42,14 @@ class SubscriptionsViewSet(ViewSet):
     def end_subscription(self,request):
         #First gather all the data needed from the request
         author_id = request.data["author_id"]
-        #this is the author
+        #This is the author
         author = RareUsers.objects.get(pk=author_id)
         djangoUser = request.auth.user
-        #this is the follower (the person logged in and Unsubscribing)
+        #This is the follower (the person logged in and Unsubscribing)
         follower = RareUsers.objects.get(user=djangoUser)
-        #next get the subscriptions
+        #Next get the subscriptions
         subscription=Subscriptions.objects.get(author=author, follower=follower,ended_on=None)
-        
+        #Finally add the ended on time at the time of request
         subscription.ended_on = timezone.now()
         try:
             subscription.save()
