@@ -9,6 +9,7 @@ from rest_framework import status
 from rareapi.models import Posts, RareUsers, Categories
 from datetime import date
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 class PostViewSet(ViewSet):
     """Rare Posts"""
@@ -176,7 +177,8 @@ class PostViewSet(ViewSet):
         #Prevent non-admin users from accessing un-approved posts from other users
         if not request.auth.user.is_staff:
             rare_user = RareUsers.objects.get(user=request.auth.user)
-            posts = posts.filter(approved=True, user_id=rare_user.id)
+            #Filter the posts to only the posts that are approved OR were created by the user
+            posts = posts.filter(Q(approved=True) | Q(user_id=rare_user.id))
 
         # e.g.: /posts?user_id=1
         user_id = self.request.query_params.get('user_id', None)
