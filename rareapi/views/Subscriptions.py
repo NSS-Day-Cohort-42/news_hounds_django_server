@@ -1,6 +1,7 @@
 """ View Module FOr handling requests about subscriptions"""
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework import status
 from django.utils import timezone
 from rareapi.models import RareUsers, Subscriptions
@@ -36,3 +37,25 @@ class SubscriptionsViewSet(ViewSet):
             return Response({}, status=status.HTTP_201_CREATED)
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    """action to update the ended_on date for when someone unsubscribes"""
+    @action(methods=['put'], detail=False)
+    def end_subscription(self,request):
+        #First gather all the data needed from the request
+        author_id = request.data["author_id"]
+        #This is the author
+        author = RareUsers.objects.get(pk=author_id)
+        djangoUser = request.auth.user
+        #This is the follower (the person logged in and Unsubscribing)
+        follower = RareUsers.objects.get(user=djangoUser)
+        #Next get the subscriptions
+        subscription=Subscriptions.objects.get(author=author, follower=follower,ended_on=None)
+        #Finally add the ended on time at the time of request
+        subscription.ended_on = timezone.now()
+        try:
+            subscription.save()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+
