@@ -1,7 +1,7 @@
 from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
-from rareapi.views import register_user, login_user, PostViewSet, TagViewSet, CategoryViewSet, CommentViewSet, PostTagsViewSet, ProfileViewSet, SubscriptionsViewSet
+from rareapi.views import register_user, login_user, PostViewSet, TagViewSet, CategoryViewSet, CommentViewSet, PostTagsViewSet, ProfileViewSet, ReactionsViewSet, SubscriptionsViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -15,6 +15,7 @@ router.register(r'posttags', PostTagsViewSet, 'posttags' )
 router.register(r'categories', CategoryViewSet, 'category')
 router.register(r'subscriptions', SubscriptionsViewSet, 'subscription')
 router.register(r'profiles', ProfileViewSet, 'profile')
+router.register(r'reactions', ReactionsViewSet, 'reaction')
 
 urlpatterns = [
     path('', include(router.urls)),

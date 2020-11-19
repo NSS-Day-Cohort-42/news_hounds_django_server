@@ -7,3 +7,5 @@ from .Comments import CommentViewSet
 from .PostTags import PostTagsViewSet
 from .Subscriptions import SubscriptionsViewSet
 from .Profiles import ProfileViewSet
+from .Reactions import ReactionsViewSet
+
