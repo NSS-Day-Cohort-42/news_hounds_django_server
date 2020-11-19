@@ -50,5 +50,18 @@
             "content": "***Chews Carpet***",
             "approved": false
         }
+    },
+    {
+        "model": "rareapi.posts",
+        "pk": 5,
+        "fields": {
+            "user": 2,
+            "category": 3,
+            "title": "Admin Post",
+            "publication_date": "2020-10-30",
+            "image_url": "",
+            "content": "I'm the best",
+            "approved": true
+        }
     }
 ]
