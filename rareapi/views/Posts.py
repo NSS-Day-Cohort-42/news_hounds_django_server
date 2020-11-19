@@ -203,26 +203,35 @@ class PostViewSet(ViewSet):
     def retrieve(self, request, pk=None):
         """Handle GET request for single post
         Returns:
-            Response JSON serielized post instance
+            Response JSON serialized post instance
         """
         try:
             post = Posts.objects.get(pk=pk)
             
             #Prevent non-admin users from accessing un-approved posts from other users
             rare_user = RareUsers.objects.get(user=request.auth.user)
-            if not request.auth.user.is_staff and not post.user_id == rare_user.id:
+            if request.auth.user.is_staff or post.user_id == rare_user.id or post.approved:
+                serializer = PostSerializer(post, context={'request': request})
+                return Response(serializer.data)
+            else:
                 return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
-            serializer = PostSerializer(post, context={'request': request})
-            return Response(serializer.data)
         except Exception as ex:
             return HttpResponseServerError(ex)
 
     def destroy(self, request, pk=None):
+        
         try:
             post = Posts.objects.get(pk=pk)
-            post.delete()
-            return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+            #Prevent non-admin users from deleting posts from other users
+            rare_user = RareUsers.objects.get(user=request.auth.user)
+            if request.auth.user.is_staff or post.user_id == rare_user.id:
+                post.delete()
+                return Response({}, status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
+                
         except Posts.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
