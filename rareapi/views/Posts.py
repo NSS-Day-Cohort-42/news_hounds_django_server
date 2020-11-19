@@ -10,6 +10,7 @@ from rest_framework import status
 from rareapi.models import Posts, RareUsers, Categories, Reactions, PostReactions
 from datetime import date
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 class PostViewSet(ViewSet):
     """Rare Posts"""
@@ -80,6 +81,13 @@ class PostViewSet(ViewSet):
 
         ##Find the post being updated based on it's primary key  
         post = Posts.objects.get(pk=pk)
+        
+        #Prevent non-admin users from modifying other user's posts
+        rare_user = RareUsers.objects.get(user=request.auth.user)
+        if not request.auth.user.is_staff:
+            if rare_user.id != post.user_id:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
         #try to find the category that matches the one referenced in the request and save it as the post's 'category' value
         try: 
@@ -133,6 +141,12 @@ class PostViewSet(ViewSet):
             return Response(
                 {'message': 'There is no Post with the given id.'},
                 status=status.HTTP_404_NOT_FOUND)
+        
+        #Prevent non-admin users from modifying other user's posts
+        rare_user = RareUsers.objects.get(user=request.auth.user)
+        if not request.auth.user.is_staff:
+            if rare_user.id != post.user_id:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
 
         if 'approved' in request.data:
             # The user is trying to update the approved property on the post
@@ -161,6 +175,12 @@ class PostViewSet(ViewSet):
         """
         posts = Posts.objects.all()
 
+        #Prevent non-admin users from accessing un-approved posts from other users
+        if not request.auth.user.is_staff:
+            rare_user = RareUsers.objects.get(user=request.auth.user)
+            #Filter the posts to only the posts that are approved OR were created by the user
+            posts = posts.filter(Q(approved=True) | Q(user_id=rare_user.id))
+
         # e.g.: /posts?user_id=1
         user_id = self.request.query_params.get('user_id', None)
         if user_id is not None:
@@ -186,20 +206,35 @@ class PostViewSet(ViewSet):
     def retrieve(self, request, pk=None):
         """Handle GET request for single post
         Returns:
-            Response JSON serielized post instance
+            Response JSON serialized post instance
         """
         try:
             post = Posts.objects.get(pk=pk)
-            serializer = PostSerializer(post, context={'request': request})
-            return Response(serializer.data)
+            
+            #Prevent non-admin users from accessing un-approved posts from other users
+            rare_user = RareUsers.objects.get(user=request.auth.user)
+            if request.auth.user.is_staff or post.user_id == rare_user.id or post.approved:
+                serializer = PostSerializer(post, context={'request': request})
+                return Response(serializer.data)
+            else:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
+
         except Exception as ex:
             return HttpResponseServerError(ex)
 
     def destroy(self, request, pk=None):
+        
         try:
             post = Posts.objects.get(pk=pk)
-            post.delete()
-            return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+            #Prevent non-admin users from deleting posts from other users
+            rare_user = RareUsers.objects.get(user=request.auth.user)
+            if request.auth.user.is_staff or post.user_id == rare_user.id:
+                post.delete()
+                return Response({}, status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response({"message": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED)
+                
         except Posts.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
