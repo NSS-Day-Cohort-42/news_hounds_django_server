@@ -53,7 +53,7 @@ class SubscriptionsViewSet(ViewSet):
         subscription.ended_on = timezone.now()
         try:
             subscription.save()
-            return Response({}, status=status.HTTP_201_CREATED)
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
