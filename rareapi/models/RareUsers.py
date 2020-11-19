@@ -45,13 +45,13 @@ class RareUsers(models.Model):
         return len(self.posts_set.all())
 
     @property
-    def joined(self):
-        """joined property that will allow the client to know if a user has joined.
+    def subscribed(self):
+        """subscribed property that will allow the client to know if a user has subscribed.
 
         Returns:
-        boolean -- if the user has joined or not"""
-        return self.__joined
+        boolean -- if the user has subscribed or not"""
+        return self.__subscribed
 
-    @joined.setter
-    def joined(self, value):
-        self.__joined = value
+    @subscribed.setter
+    def subscribed(self, value):
+        self.__subscribed = value

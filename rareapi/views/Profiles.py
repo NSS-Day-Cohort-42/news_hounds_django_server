@@ -27,9 +27,9 @@ class ProfileViewSet(ViewSet):
         #next get the subscriptions for these users
         try:
             Subscriptions.objects.get(author=author, follower=follower, ended_on=None)
-            author.joined = True
+            author.subscribed = True
         except Subscriptions.DoesNotExist:
-            author.joined = False
+            author.subscribed = False
 
         
         serializer = BasicProfileSerializer(author, context={'request': request})
@@ -91,7 +91,7 @@ class ProfileViewSet(ViewSet):
 class BasicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = RareUsers
-        fields = ('id', 'username', 'is_staff', 'active', 'email', 'created_on', 'profile_image_url', 'fullname', 'post_count', 'joined' )
+        fields = ('id', 'username', 'is_staff', 'active', 'email', 'created_on', 'profile_image_url', 'fullname', 'post_count', 'subscribed' )
     
 
 
