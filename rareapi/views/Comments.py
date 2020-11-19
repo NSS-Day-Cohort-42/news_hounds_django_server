@@ -1,7 +1,5 @@
-
 from rareapi.models import Comments,Posts,RareUsers
 from django.core.exceptions import ValidationError
-from django.http import HttpResponseServerError
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -11,14 +9,10 @@ from django.utils import timezone
 
 class RareUsersSerializer(serializers.ModelSerializer):
     """JSON serializer for rareUsers"""
-   
-
 
     class Meta:
         model = RareUsers
         fields = ['id', 'username']
-
-   
 
 class CommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comment creator"""
@@ -27,8 +21,6 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = ('id','author', 'content', 'subject', 'created_on')
-
-
 
 class CommentViewSet(ViewSet):
 
@@ -75,6 +67,14 @@ class CommentViewSet(ViewSet):
             comment = Comments.objects.get(pk=pk)
         except Comments.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
+        rare_user = RareUsers.objects.get(user=request.auth.user)
+        if comment.author != rare_user:
+            return Response(
+                {'message': 'Comments cannot be updated by users who did not author them.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         comment.content = request.data["content"]
         comment.subject = request.data["subject"]
         try:
@@ -86,12 +86,22 @@ class CommentViewSet(ViewSet):
     def destroy(self, request, pk=None):
         try:
             comment = Comments.objects.get(pk=pk)
-            comment.delete()
-            return Response({}, status=status.HTTP_204_NO_CONTENT)
         except Comments.DoesNotExist as ex:
             return Response({'message': ex.args[0]})
+
+        rare_user = RareUsers.objects.get(user=request.auth.user)
+        if (comment.author != rare_user) and (not request.auth.user.is_staff):
+            return Response(
+                {'message': 'Comments can only be deleted by admins or the users who authored them.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        try:
+            comment.delete()
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 
 

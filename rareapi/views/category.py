@@ -1,8 +1,8 @@
 """Category ViewSet and Serializers"""
-from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status, serializers
+from django.http.response import HttpResponseServerError
 from rareapi.models import Categories
 
 class CategoryViewSet(ViewSet):
@@ -12,6 +12,13 @@ class CategoryViewSet(ViewSet):
         """POST a new Categories object"""
 
         # VALIDATION:
+        # Ensure that the user is an admin
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to create categories.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         # Ensure that client request included the required `label` key in POST body
         try:
             label = request.data['label']
@@ -49,6 +56,12 @@ class CategoryViewSet(ViewSet):
     def destroy(self, request, pk=None):
         """DELETE a category with the given pk"""
 
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to delete categories.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         try:
             category = Categories.objects.get(pk=pk)
 
@@ -65,7 +78,7 @@ class CategoryViewSet(ViewSet):
             )
 
         category.delete()
-        return Response({}, HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
     
     
     def retrieve(self, request, pk=None):
@@ -86,6 +99,12 @@ class CategoryViewSet(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to update categories.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         # Do mostly the same thing as POST, but instead of
         # creating a new instance of Category, get the Category record
         # from the database whose primary key is `pk`
