@@ -1,8 +1,7 @@
-from rareapi.views.Subscriptions import SubscriptionsViewSet
 from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
-from rareapi.views import register_user, login_user, PostViewSet, TagViewSet, CategoryViewSet, CommentViewSet, PostTagsViewSet, ProfileViewSet
+from rareapi.views import register_user, login_user, PostViewSet, TagViewSet, CategoryViewSet, CommentViewSet, PostTagsViewSet, ProfileViewSet, SubscriptionsViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 
