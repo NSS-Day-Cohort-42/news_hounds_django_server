@@ -3,10 +3,11 @@ from rareapi.models.PostTags import PostTags
 from rareapi.models.Tags import Tags
 from django.http.response import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
+from rest_framework.decorators import action
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
-from rareapi.models import Posts, RareUsers, Categories
+from rareapi.models import Posts, RareUsers, Categories, Reactions, PostReactions
 from datetime import date
 from django.core.exceptions import ValidationError
 
@@ -203,6 +204,61 @@ class PostViewSet(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(methods=['post', 'delete'], detail=True)
+    def reaction(self, request, pk=None):
+    
+        try:
+            post = Posts.objects.get(pk=pk)
+        except Posts.DoesNotExist:
+            return Response(
+                {'message': 'Post does not exist.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        try:
+            user = RareUsers.objects.get(user=request.auth.user)
+        except RareUsers.DoesNotExist:
+            return Response(
+                {'message': 'User does not exist.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        try:
+           reaction = Reactions.objects.get(pk=request.data["reaction_id"])
+        except Posts.DoesNotExist:
+            return Response(
+                {'message': 'Reaction does not exist.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )    
+        #User wants to react to a post
+        if request.method == "POST":
+                        
+            try:
+                reacted = PostReactions.objects.get(
+                    post=post, user=user, reaction=reaction)
+                return Response(
+                    {'message': 'User has already used this reaction.'},
+                    status=status.HTTP_422_UNPROCESSABLE_ENTITY
+                )
+            except PostReactions.DoesNotExist:
+                reacted = PostReactions()
+                reacted.user = user
+                reacted.post = post
+                reacted.reaction = reaction
+                reacted.save()
+                
+                return Response({}, status=status.HTTP_201_CREATED)
+            
+            
+        elif request.method ==  "DELETE":
+                      
+            reacted = PostReactions.objects.get(
+                post=post, user=user, reaction=reaction)
+            reacted.delete()
+            return Response(None, status=status.HTTP_204_NO_CONTENT)
+            
+        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     
     
