@@ -39,7 +39,7 @@ class SubscriptionsViewSet(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     """action to update the ended_on date for when someone unsubscribes"""
     @action(methods=['put'], detail=False)
-    def update_subscription(self,request):
+    def end_subscription(self,request):
         #First gather all the data needed from the request
         author_id = request.data["author_id"]
         #this is the author
@@ -59,42 +59,3 @@ class SubscriptionsViewSet(ViewSet):
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#     def partial_update(self, request, pk=None):
-#         """Handle PATCH request"""
-#             # author_id = request.data["author_id"]
-#             # djangoUser = request.auth.user
-#             # follower = RareUsers.objects.get(user=djangoUser)
-# # Get the subscription based off it's primary key
-#         try:
-#             subscription = Subscriptions.objects.get(follower=follower, author=author, ended_on=None)
-#         except Subscriptions.DoesNotExist:
-#             return Response({'message': 'There is no Subscription with this given ID'}, status=status.HTTP_400_BAD_REQUEST)
-# Next update the request with the updated 
-#         subscription.ended_on = timezone.now()
-
-#         try: 
-#             subscription.save()
-#             return Response({}, status=status.HTTP_204_NO_CONTENT)
-#         except Exception as ex:
-#             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
