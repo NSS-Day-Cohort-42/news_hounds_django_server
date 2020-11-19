@@ -43,3 +43,15 @@ class RareUsers(models.Model):
         # you can access all of the Posts where the user foreign key
         # points to "this" user via self.posts_set
         return len(self.posts_set.all())
+
+    @property
+    def joined(self):
+        """joined property that will allow the client to know if a user has joined.
+
+        Returns:
+        boolean -- if the user has joined or not"""
+        return self.__joined
+
+    @joined.setter
+    def joined(self, value):
+        self.__joined = value

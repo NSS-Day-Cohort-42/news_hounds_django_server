@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
-from rareapi.models import RareUsers
+from rareapi.models import RareUsers, Subscriptions
 from rest_framework import status
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
@@ -19,12 +19,24 @@ class ProfileViewSet(ViewSet):
         Returns:
             Response JSON serielized profile instance
         """
+        #First get the User who's profile is being viewed
+        author = RareUsers.objects.get(pk=pk)
+        #Next get the current logged in user
+        current_user = request.auth.user
+        follower = RareUsers.objects.get(user=current_user)
+        #next get the subscriptions for these users
         try:
-            rare_user = RareUsers.objects.get(pk=pk)
-            serializer = BasicProfileSerializer(rare_user, context={'request': request})
-            return Response(serializer.data)
-        except Exception as ex:
-            return HttpResponseServerError(ex)
+            Subscriptions.objects.get(author=author, follower=follower, ended_on=None)
+            author.joined = True
+        except Subscriptions.DoesNotExist:
+            author.joined = False
+
+        
+        serializer = BasicProfileSerializer(author, context={'request': request})
+        return Response(serializer.data)
+       
+     
+    
 
     def partial_update(self, request, pk=None):
         """Handle a partial update to a RareUser resource. Handles PATCH requests
@@ -79,7 +91,7 @@ class ProfileViewSet(ViewSet):
 class BasicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = RareUsers
-        fields = ('id', 'username', 'is_staff', 'active', 'email', 'created_on', 'profile_image_url', 'fullname', 'post_count' )
+        fields = ('id', 'username', 'is_staff', 'active', 'email', 'created_on', 'profile_image_url', 'fullname', 'post_count', 'joined' )
     
 
 
