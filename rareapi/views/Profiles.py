@@ -79,7 +79,7 @@ class ProfileViewSet(ViewSet):
 class BasicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = RareUsers
-        fields = ('id', 'username', 'is_staff', 'active', 'email', 'created_on', 'profile_image_url', 'fullname' )
+        fields = ('id', 'username', 'is_staff', 'active', 'email', 'created_on', 'profile_image_url', 'fullname', 'post_count' )
     
 
 

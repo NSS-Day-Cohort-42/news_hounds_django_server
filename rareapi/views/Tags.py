@@ -13,6 +13,12 @@ class TagViewSet(ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to create tags.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         tag = Tags()
         tag.label = request.data["label"]
         
@@ -24,6 +30,12 @@ class TagViewSet(ViewSet):
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to update tags.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         try:
             tag = Tags.objects.get(pk=pk)
         except Tags.DoesNotExist:
@@ -33,6 +45,12 @@ class TagViewSet(ViewSet):
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
+        if not request.auth.user.is_staff:
+            return Response(
+                {'message': 'You must be an admin to delete tags.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         try:
             tag = Tags.objects.get(pk=pk)
             tag.delete()
