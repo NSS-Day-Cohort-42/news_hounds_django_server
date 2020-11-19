@@ -69,7 +69,7 @@ class CommentViewSet(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
         rare_user = RareUsers.objects.get(user=request.auth.user)
-        if not comment.author == rare_user:
+        if comment.author != rare_user:
             return Response(
                 {'message': 'Comments cannot be updated by users who did not author them.'},
                 status=status.HTTP_403_FORBIDDEN
