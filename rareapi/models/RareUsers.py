@@ -43,3 +43,15 @@ class RareUsers(models.Model):
         # you can access all of the Posts where the user foreign key
         # points to "this" user via self.posts_set
         return len(self.posts_set.all())
+
+    @property
+    def subscribed(self):
+        """subscribed property that will allow the client to know if a user has subscribed.
+
+        Returns:
+        boolean -- if the user has subscribed or not"""
+        return self.__subscribed
+
+    @subscribed.setter
+    def subscribed(self, value):
+        self.__subscribed = value
