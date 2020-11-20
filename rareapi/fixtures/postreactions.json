@@ -79,5 +79,32 @@
            "reaction": 4,
            "post": 1
         }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 10,
+        "fields": {
+           "user": 3,
+           "reaction": 1,
+           "post": 6
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 11,
+        "fields": {
+           "user": 3,
+           "reaction": 1,
+           "post": 7
+        }
+    },
+    {
+        "model": "rareapi.postreactions",
+        "pk": 12,
+        "fields": {
+           "user": 3,
+           "reaction": 1,
+           "post": 8
+        }
     }
 ]

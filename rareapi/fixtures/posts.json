@@ -8,7 +8,7 @@
             "title": "BARKSGIVING APPROACHES",
             "publication_date": "2020-08-18",
             "image_url": "http://photos1.blogger.com/blogger/2242/1570/1600/Dog%20Turkey%20Day.jpg",
-            "content": "dog sum? imsum. LOTS OF BARK BARK fluffy heckin puppers etc",
+            "content": "Doggo ipsum heckin angery woofer shoober shoob what a nice floof extremely cuuuuuute, blop big ol pupper. Very jealous pupper ruff heckin angery woofer very good spot, pupper tungg. Shooberino mlem doggo borkf pats thicc, wow such tempt vvv blep. Shibe pats snoot adorable doggo long water shoob length boy borkdrive, puggo doing me a frighten many pats porgo. Yapper I am bekom fat waggy wags stop it fren much ruin diet big ol, boof heckin pupperino. Long woofer wow such tempt very hand that feed shibe heckin good boys heckin angery woofer big ol I am bekom fat, vvv extremely cuuuuuute fat boi fluffer lotsa pats, big ol pupper shooberino porgo heckin waggy wags.  Waggy wags smol doggo big ol pupper, wow very biscit. extremely cuuuuuute adorable doggo borkf. Length boy extremely cuuuuuute vvv sub woofer you are doing me the shock waggy wags aqua doggo fat boi aqua doggo, such treat blop wow very biscit bork boofers long bois.",
             "approved": true
         }
     },
@@ -18,10 +18,10 @@
         "fields": {
             "user": 1,
             "category": 3,
-            "title": "Something about dogs",
+            "title": "Pug in Rug",
             "publication_date": "2020-09-28",
-            "image_url": "http://i1.wp.com/sarcasticdog.com/wp-content/uploads/2015/09/Clark-gallery.png",
-            "content": "I dont know, LITERALLY this is filler text ya'll come awwnn",
+            "image_url": "https://picsum.photos/id/1062/200/300",
+            "content": "Very hand that feed shibe the neighborhood pupper sub woofer heckin good boys corgo pats, doge tungg pupper clouds. pats the neighborhood pupper he made many woofs. Shoob ur givin me a spook woofer doggorino, very hand that feed shibe. Sub woofer you are doing me the shock long doggo corgo big ol, super chub most angery pupper I have ever seen extremely cuuuuuute. Dat tungg tho noodle horse ur givin me a spook, waggy wags. Shooberino doggo very good spot you are doing me a frighten fat boi yapper big ol very jealous pupper, borkf bork pupper maximum borkdrive borkf smol.",
             "approved": true
         }
     },
@@ -61,6 +61,45 @@
             "publication_date": "2020-10-30",
             "image_url": "",
             "content": "I'm the best",
+            "approved": true
+        }
+    },
+    {
+        "model": "rareapi.posts",
+        "pk": 6,
+        "fields": {
+            "user": 3,
+            "category": 3,
+            "title": "Puppies Getting Cuter",
+            "publication_date": "2020-09-28",
+            "image_url": "https://picsum.photos/id/237/400/600",
+            "content": "Very hand that feed shibe the neighborhood pupper sub woofer heckin good boys corgo pats, doge tungg pupper clouds. pats the neighborhood pupper he made many woofs. Shoob ur givin me a spook woofer doggorino, very hand that feed shibe. Sub woofer you are doing me the shock long doggo corgo big ol, super chub most angery pupper I have ever seen extremely cuuuuuute. Dat tungg tho noodle horse ur givin me a spook, waggy wags. Shooberino doggo very good spot you are doing me a frighten fat boi yapper big ol very jealous pupper, borkf bork pupper maximum borkdrive borkf smol.",
+            "approved": true
+        }
+    },
+    {
+        "model": "rareapi.posts",
+        "pk": 7,
+        "fields": {
+            "user": 3,
+            "category": 3,
+            "title": "Dog Yoda Found",
+            "publication_date": "2020-09-28",
+            "image_url": "https://picsum.photos/id/1025/400/600",
+            "content": "Very hand that feed shibe the neighborhood pupper sub woofer heckin good boys corgo pats, doge tungg pupper clouds. pats the neighborhood pupper he made many woofs. Shoob ur givin me a spook woofer doggorino, very hand that feed shibe. Sub woofer you are doing me the shock long doggo corgo big ol, super chub most angery pupper I have ever seen extremely cuuuuuute. Dat tungg tho noodle horse ur givin me a spook, waggy wags. Shooberino doggo very good spot you are doing me a frighten fat boi yapper big ol very jealous pupper, borkf bork pupper maximum borkdrive borkf smol.",
+            "approved": true
+        }
+    },
+    {
+        "model": "rareapi.posts",
+        "pk": 8,
+        "fields": {
+            "user": 3,
+            "category": 3,
+            "title": "Dog's Best Friend",
+            "publication_date": "2020-09-28",
+            "image_url": "https://picsum.photos/id/1012/400/600",
+            "content": "Very hand that feed shibe the neighborhood pupper sub woofer heckin good boys corgo pats, doge tungg pupper clouds. pats the neighborhood pupper he made many woofs. Shoob ur givin me a spook woofer doggorino, very hand that feed shibe. Sub woofer you are doing me the shock long doggo corgo big ol, super chub most angery pupper I have ever seen extremely cuuuuuute. Dat tungg tho noodle horse ur givin me a spook, waggy wags. Shooberino doggo very good spot you are doing me a frighten fat boi yapper big ol very jealous pupper, borkf bork pupper maximum borkdrive borkf smol.",
             "approved": true
         }
     }
